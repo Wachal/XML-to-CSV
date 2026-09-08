@@ -22,10 +22,16 @@ dla CSV i dla TSV.
 | Adres | Co zwraca |
 |---|---|
 | `/` | strona statusu: czy feed żyje, ile ma wariantów, kiedy sprawdzono |
-| `/products.csv` | plik rozdzielany przecinkiem |
-| `/products.txt` | plik rozdzielany tabulatorem (TSV) |
+| `/products.csv` | plik rozdzielany przecinkiem, otwiera się w oknie przeglądarki |
+| `/products.txt` | plik rozdzielany tabulatorem (TSV), również w oknie |
+| `/products.csv?dl=1` | to samo, ale wymusza pobranie na dysk |
 
 Adres `/products.csv` jest tym, który podaje się w ChatGPT.
+
+Oba adresy zwracają treść jako `text/plain`, dzięki czemu widać ją po kliknięciu w przeglądarce.
+Typ `text/csv`, formalnie właściwy dla CSV, zmusza przeglądarki do pobierania pliku na dysk,
+a konsumenci feedu i tak rozpoznają format po rozszerzeniu w adresie. Gdy potrzebny jest
+właściwy typ MIME i pobranie, wystarczy dopisać `?dl=1`.
 
 Cron nie jest potrzebny. Odpowiedź żyje godzinę na krawędzi Vercela (`s-maxage=3600`),
 a po wygaśnięciu Vercel oddaje starą kopię i odświeża ją w tle (`stale-while-revalidate`).
