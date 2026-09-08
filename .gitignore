@@ -1,0 +1,26 @@
+# zależności i wyniki budowania
+node_modules/
+.next/
+out/
+
+# Vercel
+.vercel
+
+# TypeScript
+next-env.d.ts
+*.tsbuildinfo
+
+# zmienne środowiskowe
+.env
+.env*.local
+
+# system
+.DS_Store
+*.log
+
+# pliki generowane przez konwerter (wariant serwerowy)
+# ukośnik z przodu zawęża wzorzec do korzenia repo,
+# inaczej złapałby też katalogi tras app/products.csv i app/products.txt
+/products.csv
+/products.txt
+/products.xml

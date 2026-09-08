@@ -1,0 +1,82 @@
+:root {
+  color-scheme: light dark;
+  --bg: #fbfbfa;
+  --surface: #ffffff;
+  --border: #e4e4e1;
+  --text: #1a1a18;
+  --muted: #6b6b66;
+  --accent: #1f6feb;
+  --ok-bg: #e8f5ec;
+  --ok-text: #1a6b38;
+  --bad-bg: #fdeaea;
+  --bad-text: #a5251f;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #17171a;
+    --surface: #1f1f23;
+    --border: #33333a;
+    --text: #ececef;
+    --muted: #9a9aa3;
+    --accent: #6ea8fe;
+    --ok-bg: #16301f;
+    --ok-text: #7ee0a0;
+    --bad-bg: #331a1a;
+    --bad-text: #f2938c;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 3rem 1.25rem 4rem;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+main { max-width: 46rem; margin: 0 auto; }
+
+h1 { font-size: 1.5rem; letter-spacing: -0.02em; margin: 0 0 0.35rem; }
+
+.lede { color: var(--muted); margin: 0 0 2rem; }
+
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+}
+.badge.ok { background: var(--ok-bg); color: var(--ok-text); }
+.badge.bad { background: var(--bad-bg); color: var(--bad-text); }
+
+.files { display: grid; gap: 0.75rem; margin-bottom: 2rem; }
+
+.file {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  text-decoration: none;
+  color: inherit;
+}
+.file:hover { border-color: var(--accent); }
+.file code { font-family: var(--mono); font-size: 0.95rem; color: var(--accent); }
+.file span { color: var(--muted); font-size: 0.85rem; white-space: nowrap; }
+
+table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; }
+th, td { text-align: left; padding: 0.55rem 0; border-bottom: 1px solid var(--border); }
+th { font-weight: 500; color: var(--muted); }
+td { font-variant-numeric: tabular-nums; }
+
+.note { color: var(--muted); font-size: 0.9rem; }
+.note code { font-family: var(--mono); font-size: 0.85rem; }
