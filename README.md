@@ -112,6 +112,31 @@ Przydatne nagłówki w odpowiedzi:
 * `X-Feed-Generated` — kiedy plik powstał
 * `x-vercel-cache: HIT / MISS / STALE` — czy poszedł z bufora krawędzi
 
+## Blokada botów
+
+Feed jest zamknięty dla ruchu automatycznego poza OpenAI. Działa to na trzech poziomach:
+
+1. **`robots.txt`** (`app/robots.ts`) blokuje wszystko przez `User-agent: *`, a wpuszcza
+   cztery agenty z [dokumentacji OpenAI](https://developers.openai.com/api/docs/bots):
+   `OAI-AdsBot` (sprawdzanie materiałów reklamowych, czyli ścieżka feedu produktowego),
+   `OAI-SearchBot` (wyszukiwanie w ChatGPT), `ChatGPT-User` (wejście na stronę, gdy ktoś
+   wklei link w rozmowie) i `GPTBot` (dane treningowe). Wyszukiwarki respektują ten plik,
+   więc feed nie trafi do Google ani Bing.
+2. **`middleware.ts`** zwraca 403 agentom, którzy notorycznie ignorują `robots.txt`:
+   narzędziom SEO, robotom AI spoza OpenAI i pospolitym skrobaczkom. Lista jest listą
+   **zakazanych**, nie dozwolonych, więc nieznany klient zawsze przechodzi. Dzięki temu
+   żadna zmiana nazwy agenta po stronie OpenAI nie jest w stanie uciąć feedu.
+3. **Nagłówek `X-Robots-Tag: noindex, nofollow, noarchive`** na każdej odpowiedzi trzyma
+   adresy poza wynikami wyszukiwania nawet wtedy, gdy ktoś je gdzieś opublikuje.
+
+`GPTBot` nie jest potrzebny, żeby feed działał, i wpuszczony jest tylko po to, by żadna
+ścieżka po stronie OpenAI nie odbiła się o blokadę. Usunięcie jego sekcji z `app/robots.ts`
+niczego nie psuje, jeśli katalog nie ma trafiać do danych treningowych.
+
+Ludzie i zwykłe narzędzia (przeglądarka, `curl`) nie są blokowane. Sprawdzone: wszystkie
+cztery agenty OpenAI dostają 200, a AhrefsBot, SemrushBot, ClaudeBot, PerplexityBot,
+Bytespider i CCBot dostają 403.
+
 ## Na co uważać
 
 * **Plan Vercela.** Hobby jest wyłącznie do użytku niekomercyjnego, a feed sklepu takim
@@ -133,9 +158,11 @@ app/
   globals.css            style, jasny i ciemny motyw
   products.csv/route.ts  trasa CSV
   products.txt/route.ts  trasa TSV
+  robots.ts              robots.txt: blokada wszystkiego poza botami OpenAI
 lib/
   feed.ts                pobranie XML-a i konwersja, rdzeń bez zależności od Next.js
   serve.ts               budowa odpowiedzi HTTP: gzip, nagłówki, bufor, obsługa błędu
+middleware.ts            twarda blokada botów ignorujących robots.txt
 vercel.json              codzienny cron odświeżający oba pliki
 vps/
   install.sh             instalator na świeży serwer: cron, nginx, HTTPS

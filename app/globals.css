@@ -10,6 +10,7 @@
   --ok-text: #1a6b38;
   --bad-bg: #fdeaea;
   --bad-text: #a5251f;
+  --hover: #f2f2f0;
   --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 }
 
@@ -25,6 +26,7 @@
     --ok-text: #7ee0a0;
     --bad-bg: #331a1a;
     --bad-text: #f2938c;
+    --hover: #26262b;
   }
 }
 
@@ -59,19 +61,56 @@ h1 { font-size: 1.5rem; letter-spacing: -0.02em; margin: 0 0 0.35rem; }
 
 .file {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 0.9rem 1.1rem;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  padding: 0.85rem 1rem;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 10px;
-  text-decoration: none;
-  color: inherit;
 }
-.file:hover { border-color: var(--accent); }
-.file code { font-family: var(--mono); font-size: 0.95rem; color: var(--accent); }
-.file span { color: var(--muted); font-size: 0.85rem; white-space: nowrap; }
+
+.file-info {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.85rem;
+  min-width: 0;
+}
+.file-info code {
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  color: var(--text);
+  word-break: break-all;
+}
+.file-info .hint { color: var(--muted); font-size: 0.85rem; }
+
+.file-actions { display: flex; gap: 0.5rem; flex: none; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn svg { flex: none; }
+
+@media (max-width: 30rem) {
+  .file { align-items: stretch; }
+  .file-actions { width: 100%; }
+  .btn { flex: 1; justify-content: center; padding: 0.55rem 0.8rem; }
+}
 
 table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; }
 th, td { text-align: left; padding: 0.55rem 0; border-bottom: 1px solid var(--border); }
